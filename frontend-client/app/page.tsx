@@ -53,15 +53,7 @@ export default function ChatPage() {
         </div>
 
         <div className="hidden md:flex absolute top-4 right-4 gap-2 z-20">
-          <Button variant="ghost" size="icon-sm" asChild>
-            <Link
-              href="https://github.com/ln-dev7/square-ui/tree/master/templates/chat"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Github className="size-4" />
-            </Link>
-          </Button>
+          
           <ThemeToggle />
         </div>
 
