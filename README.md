@@ -57,6 +57,8 @@
   Votre navigateur ne supporte pas la lecture de cette vidéo.
 </video>
 
+![Démo du projet](https://github.com/user-attachments/assets/CreateTicket.mp4)
+
 ---
 
 ### 📹 Vidéo 2 — Résolution Automatique par l'Utilisateur
