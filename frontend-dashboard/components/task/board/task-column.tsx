@@ -1,7 +1,7 @@
 "use client";
 
 import { Status } from "@/mock-data/statuses";
-import { Task } from "@/mock-data/tasks";
+import { Task } from "@/store/tasks-store";
 import { TaskCard } from "./task-card";
 import { Plus, MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";

@@ -1,5 +1,6 @@
 /**
  * Client WebSocket pour le chat en temps réel avec l'agent AI.
+ * Connexion réelle au backend FastAPI — suppression du mode fictif.
  */
 
 const BACKEND_WS_URL = process.env.NEXT_PUBLIC_BACKEND_WS_URL || "ws://localhost:8000";
@@ -14,6 +15,7 @@ export class ChatWebSocket {
   private onError?: WSErrorHandler;
   private reconnectAttempts = 0;
   private maxReconnects = 3;
+  private reconnectDelay = 2000;
 
   constructor(ticketId: string, onMessage: WSMessageHandler, onError?: WSErrorHandler) {
     this.ticketId = ticketId;
@@ -22,30 +24,60 @@ export class ChatWebSocket {
   }
 
   connect() {
-    console.log(`[WS-MOCK] Connecté au ticket fictif ${this.ticketId}`);
+    const url = `${BACKEND_WS_URL}/chat/ws/${this.ticketId}`;
+    console.log(`[WS] Connexion à ${url}`);
+    this.ws = new WebSocket(url);
+
+    this.ws.onopen = () => {
+      console.log(`[WS] Connecté au ticket ${this.ticketId}`);
+      this.reconnectAttempts = 0;
+    };
+
+    this.ws.onmessage = (event) => {
+      try {
+        const data = JSON.parse(event.data as string);
+        this.onMessage(data);
+      } catch {
+        console.error("[WS] Erreur de parsing JSON:", event.data);
+      }
+    };
+
+    this.ws.onerror = (error) => {
+      console.error("[WS] Erreur WebSocket:", error);
+      this.onError?.(error);
+    };
+
+    this.ws.onclose = (event) => {
+      console.log(`[WS] Déconnecté (code: ${event.code})`);
+      // Tentative de reconnexion automatique sur fermeture inattendue
+      if (event.code !== 1000 && this.reconnectAttempts < this.maxReconnects) {
+        this.reconnectAttempts++;
+        console.log(`[WS] Reconnexion ${this.reconnectAttempts}/${this.maxReconnects} dans ${this.reconnectDelay}ms...`);
+        setTimeout(() => this.connect(), this.reconnectDelay);
+      }
+    };
   }
 
   sendMessage(userId: string, message: string) {
-    console.log(`[WS-MOCK] Message envoyé:`, message);
-    
-    // Simuler une réponse après 2 secondes
-    setTimeout(() => {
-      this.onMessage({
-        meta: { ticket_id: this.ticketId, est_reprise: true, timestamp: new Date().toISOString(), latence_ms: 1200 },
-        classification: { categorie: "reseau_et_connectivite", priorite: "P2_haute", equipe_affectee: "infrastructure_reseau", confiance: 0.95 },
-        diagnostic: { complet: true, symptome: "Panne", informations_manquantes: [] },
-        decision: { action: "demande_information", validation_humaine_requise: false, statut_ticket: "EN_COURS" },
-        execution: { sources_consultees: [], outils_appeles: [] },
-        reponse_client: "Message reçu par le WebSocket (Mode Fictif). Que puis-je faire d'autre ?",
-      });
-    }, 2000);
+    if (!this.ws || this.ws.readyState !== WebSocket.OPEN) {
+      console.error("[WS] WebSocket non connecté, tentative de reconnexion...");
+      this.connect();
+      return;
+    }
+    const payload = JSON.stringify({ user_id: userId, message });
+    console.log(`[WS] Envoi:`, payload);
+    this.ws.send(payload);
   }
 
   disconnect() {
-    console.log("[WS-MOCK] Déconnecté");
+    if (this.ws) {
+      this.ws.close(1000, "Fermeture normale");
+      this.ws = null;
+      console.log("[WS] Déconnecté proprement.");
+    }
   }
 
-  get isConnected() {
-    return true;
+  get isConnected(): boolean {
+    return this.ws?.readyState === WebSocket.OPEN;
   }
 }

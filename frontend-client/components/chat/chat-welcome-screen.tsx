@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Logo } from "@/components/ui/logo";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 import {
   ZapIcon,
@@ -40,16 +40,22 @@ export function ChatWelcomeScreen({
       <div className="w-full max-w-[640px] space-y-9 -mt-12">
         <div className="flex justify-center">
           <div className="flex items-center justify-center size-8 rounded-full">
-            <Logo className="size-20" />
+            <Image
+              src="/ispm.png"
+              alt="ISPM Logo"
+              width={80}
+              height={80}
+              className="size-20 object-contain rounded"
+            />
           </div>
         </div>
 
         <div className="space-y-4 text-center">
           <h1 className="text-2xl font-semibold tracking-tight">
-            Hey! I&apos;m Square.ai
+            Hey! Je suis l'assistant mAIntenance 
           </h1>
-          <p className="text-2xl text-foreground">
-            Tell me everything you need
+          <p className="text-xl text-muted-foreground">
+            Comment puis-je vous aider aujourd'hui ?
           </p>
         </div>
 
@@ -84,7 +90,7 @@ export function ChatWelcomeScreen({
 
       <div className="absolute bottom-6 text-center">
         <p className="text-sm text-muted-foreground">
-          Square AI can make mistakes. Check important info.
+          mAIntenance  peut faire des erreurs. Vérifiez les informations importantes.
         </p>
       </div>
     </div>

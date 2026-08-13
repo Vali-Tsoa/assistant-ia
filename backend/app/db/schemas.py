@@ -45,6 +45,9 @@ class TicketUpdate(BaseModel):
     priorite: Optional[str] = None
     equipe_affectee: Optional[str] = None
     validation_humaine_requise: Optional[bool] = None
+    diagnostic: Optional[str] = None
+    raison_urgence: Optional[str] = None
+    raison_escalade: Optional[str] = None
 
 
 class TicketRead(TicketBase):
@@ -56,6 +59,9 @@ class TicketRead(TicketBase):
     statut: str
     confiance_score: float
     validation_humaine_requise: bool
+    diagnostic: Optional[str]
+    raison_urgence: Optional[str]
+    raison_escalade: Optional[str]
     date_creation: datetime
     date_mise_a_jour: datetime
 

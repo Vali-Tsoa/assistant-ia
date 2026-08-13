@@ -1,6 +1,6 @@
 "use client";
 
-import { Task } from "@/mock-data/tasks";
+import { Task } from "@/store/tasks-store";
 import {
   Calendar,
   MessageSquare,

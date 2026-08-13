@@ -1,5 +1,6 @@
 /**
  * Client HTTP vers le backend FastAPI mAIntenance
+ * Connexion réelle au backend — suppression du mode fictif.
  */
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8000";
@@ -45,46 +46,43 @@ export interface AgentResponse {
 }
 
 export async function sendChatMessage(request: ChatRequest): Promise<AgentResponse> {
-  // Simuler un délai réseau
-  await new Promise((resolve) => setTimeout(resolve, 1500));
+  const response = await fetch(`${BACKEND_URL}/chat`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(request),
+  });
 
-  return {
-    meta: {
-      ticket_id: request.ticket_id || "TCK-2026-MOCK",
-      est_reprise: !!request.ticket_id,
-      timestamp: new Date().toISOString(),
-      latence_ms: 1500,
-    },
-    classification: {
-      categorie: "reseau_et_connectivite",
-      priorite: "P2_haute",
-      equipe_affectee: "infrastructure_reseau",
-      confiance: 0.92,
-    },
-    diagnostic: {
-      complet: true,
-      symptome: "Connexion réseau impossible",
-      informations_manquantes: [],
-    },
-    decision: {
-      action: "escalade_technicien",
-      validation_humaine_requise: false,
-      statut_ticket: "ESCALADE",
-    },
-    execution: {
-      sources_consultees: ["KB-NET-01: Pannes d'équipement réseau"],
-      outils_appeles: [
-        {
-          outil: "verifier_etat_service",
-          parametres: { service_name: "reseau" },
-          resultat: "Panne détectée",
-        },
-      ],
-    },
-    reponse_client: "J'ai bien analysé votre demande (Mode Fictif). Une panne réseau a été détectée et votre ticket a été escaladé à l'équipe infrastructure en priorité haute.",
-  };
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`Erreur backend ${response.status}: ${errorText}`);
+  }
+
+  return response.json() as Promise<AgentResponse>;
 }
 
-export async function getTickets(statut?: string) { return []; }
-export async function getTicketHistory(ticketId: string) { return []; }
-export async function updateTicket(ticketId: string, data: Record<string, unknown>) { return {}; }
+export async function getTickets(statut?: string): Promise<AgentResponse[]> {
+  const url = statut
+    ? `${BACKEND_URL}/tickets?statut=${encodeURIComponent(statut)}`
+    : `${BACKEND_URL}/tickets`;
+  const response = await fetch(url);
+  if (!response.ok) throw new Error(`Erreur ${response.status}`);
+  return response.json();
+}
+
+export async function getTicketHistory(ticketId: string) {
+  const response = await fetch(`${BACKEND_URL}/tickets/${ticketId}/history`);
+  if (!response.ok) throw new Error(`Erreur ${response.status}`);
+  return response.json();
+}
+
+export async function updateTicket(ticketId: string, data: Record<string, unknown>) {
+  const response = await fetch(`${BACKEND_URL}/tickets/${ticketId}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+  if (!response.ok) throw new Error(`Erreur ${response.status}`);
+  return response.json();
+}

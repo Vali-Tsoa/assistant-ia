@@ -21,8 +21,8 @@ class Settings(BaseSettings):
     ollama_base_url: str = "http://localhost:11434"
 
     # Embeddings
-    embedding_provider: Literal["huggingface", "openai"] = "huggingface"
-    embedding_model: str = "all-MiniLM-L6-v2"
+    embedding_provider: Literal["huggingface", "openai", "google"] = "google"
+    embedding_model: str = "models/text-embedding-004"
 
     # Database
     database_url: str = "sqlite:///./maintenance_ia.db"

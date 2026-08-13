@@ -3,8 +3,8 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 
 export const metadata: Metadata = {
-  title: "Square AI - Chat Interface",
-  description: "A modern AI chat interface built with Next.js and shadcn/ui",
+  title: "mAIntenance - Assistant Informatique",
+  description: "Assistant d'intelligence artificielle de maintenance informatique pour l'ISPM.",
 };
 
 export default function RootLayout({

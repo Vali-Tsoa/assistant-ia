@@ -5,6 +5,7 @@ import {
   Calendar as CalendarIcon,
   Plus,
   Link as LinkIcon,
+  RefreshCw,
   Github,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -22,12 +23,32 @@ import { TaskFilters } from "./task-filters";
 import { TaskSort } from "./task-sort";
 import { TaskAutomate } from "./task-automate";
 import { TaskImportExport } from "./task-import-export";
+import { useTasksStore } from "@/store/tasks-store";
+import { cn } from "@/lib/utils";
 
 export function TaskHeader() {
   const [open, setOpen] = React.useState(false);
   const [date, setDate] = React.useState<Date | undefined>(
     new Date("2024-09-07")
   );
+  const [isRefreshing, setIsRefreshing] = React.useState(false);
+  const { fetchTasks, isLoading, lastFetch } = useTasksStore();
+
+  const handleRefresh = async () => {
+    setIsRefreshing(true);
+    // Réinitialiser le throttle pour forcer le rechargement
+    useTasksStore.setState({ lastFetch: 0 });
+    await fetchTasks();
+    setIsRefreshing(false);
+  };
+
+  const lastUpdateText = React.useMemo(() => {
+    if (!lastFetch) return "Jamais actualisé";
+    const diff = Math.round((Date.now() - lastFetch) / 1000);
+    if (diff < 10) return "À l'instant";
+    if (diff < 60) return `Il y a ${diff}s`;
+    return `Il y a ${Math.round(diff / 60)}min`;
+  }, [lastFetch, isRefreshing]);
   return (
     <div className="border-b border-border bg-background">
       <div className="flex items-center justify-between px-3 lg:px-6 py-3">
@@ -39,20 +60,10 @@ export function TaskHeader() {
         </div>
 
         <div className="flex items-center gap-2 lg:gap-4">
-          <Button variant="outline" className="shadow-none" asChild>
-            <Link
-              href="https://github.com/ln-dev7/square-ui/tree/master/templates/task-management"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Github className="size-4" />
-              GitHub
-            </Link>
-          </Button>
           <ThemeToggle />
           <div className="hidden lg:flex items-center gap-2 text-sm text-muted-foreground">
-            <span>Last update 3 days ago</span>
-            <div className="flex -space-x-2 ml-2">
+            <span>{lastUpdateText}</span>
+            <div className="flex -space-x-2">
               <Avatar className="size-5 border-2 border-background">
                 <AvatarImage src="https://api.dicebear.com/9.x/glass/svg?seed=AliceJohnson" />
                 <AvatarFallback>A</AvatarFallback>
@@ -65,12 +76,19 @@ export function TaskHeader() {
                 <AvatarImage src="https://api.dicebear.com/9.x/glass/svg?seed=CharlieBrown" />
                 <AvatarFallback>C</AvatarFallback>
               </Avatar>
-              <Avatar className="size-5 border-2 border-background">
-                <AvatarImage src="https://api.dicebear.com/9.x/glass/svg?seed=DianaPrince" />
-                <AvatarFallback>D</AvatarFallback>
-              </Avatar>
             </div>
           </div>
+          <Button
+            variant="outline"
+            size="sm"
+            className="gap-2 shadow-none"
+            onClick={handleRefresh}
+            disabled={isRefreshing || isLoading}
+            title="Actualiser les tickets"
+          >
+            <RefreshCw className={cn("size-4", (isRefreshing || isLoading) && "animate-spin")} />
+            <span className="hidden sm:inline">Actualiser</span>
+          </Button>
           <Button
             variant="secondary"
             size="sm"
@@ -86,7 +104,6 @@ export function TaskHeader() {
         <div className="flex items-center gap-2 shrink-0">
           <TaskFilters />
           <TaskSort />
-          <TaskAutomate />
         </div>
 
         <div className="flex items-center gap-2 shrink-0">

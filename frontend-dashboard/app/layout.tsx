@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Task Management",
-  description: "Simple board interface for managing tasks",
+  title: "Dashboard - mAIntenance",
+  description: "Tableau de bord de suivi et d'administration RAG pour le service mAIntenance.",
 };
 
 export default function RootLayout({

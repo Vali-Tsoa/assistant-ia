@@ -8,7 +8,7 @@ from contextlib import asynccontextmanager
 
 from app.config import settings
 from app.db.init_db import init_database
-from app.api import chat, tickets, observability
+from app.api import chat, tickets, observability, knowledge
 
 
 @asynccontextmanager
@@ -48,6 +48,7 @@ app.add_middleware(
 app.include_router(chat.router)
 app.include_router(tickets.router)
 app.include_router(observability.router)
+app.include_router(knowledge.router)
 
 
 @app.get("/", tags=["Root"])

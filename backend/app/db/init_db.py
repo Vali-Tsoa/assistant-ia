@@ -50,24 +50,7 @@ def _seed_data():
 
         print(f"✅ {len(utilisateurs)} utilisateurs créés.")
 
-        # Tickets de démonstration
-        tickets_demo = [
-            schemas.TicketCreate(
-                utilisateur_id="USR-001",
-                titre="Impossible de se connecter au VPN",
-                description_originale="Depuis ce matin je n'arrive plus à me connecter au VPN de l'entreprise. L'erreur affichée est 'Timeout'.",
-            ),
-            schemas.TicketCreate(
-                utilisateur_id="USR-003",
-                titre="Mot de passe oublié — accès messagerie",
-                description_originale="J'ai oublié mon mot de passe Outlook et je ne peux plus consulter mes emails.",
-            ),
-        ]
-        for t in tickets_demo:
-            ticket = crud.create_ticket(db, t)
-            print(f"  📋 Ticket créé: {ticket.id}")
-
-        print("✅ Données de démonstration insérées avec succès.")
+        print("✅ Données de démonstration (utilisateurs) insérées avec succès.")
 
     except Exception as e:
         print(f"❌ Erreur lors du seed: {e}")

@@ -5,7 +5,7 @@ Correspond exactement au schéma SQL du cahier des charges.
 from datetime import datetime
 from sqlalchemy import (
     Column, String, Text, Float, Boolean,
-    DateTime, ForeignKey, JSON, Integer
+    DateTime, ForeignKey, JSON, Integer, Enum
 )
 from sqlalchemy.orm import relationship, DeclarativeBase
 from sqlalchemy.sql import func
@@ -51,9 +51,12 @@ class Ticket(Base):
     statut = Column(String(30), default="EN_COURS")
     # EN_COURS | EN_ATTENTE_UTILISATEUR | RESOLU | ESCALADE
 
-    # Métriques IA
+    # Métriques et Évaluation IA
     confiance_score = Column(Float, default=0.0)
     validation_humaine_requise = Column(Boolean, default=False)
+    diagnostic = Column(Text, nullable=True)
+    raison_urgence = Column(Text, nullable=True)
+    raison_escalade = Column(Text, nullable=True)
 
     # Timestamps
     date_creation = Column(DateTime, server_default=func.now())
@@ -88,3 +91,20 @@ class TicketLog(Base):
 
     def __repr__(self):
         return f"<TicketLog #{self.id} [{self.auteur}] on {self.ticket_id}>"
+
+
+class SecurityAlert(Base):
+    """Alertes de sécurité — Tentatives de prompt injection et menaces détectées."""
+    __tablename__ = "security_alerts"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    ticket_id = Column(String(50), nullable=True)          # Ticket associé (si existant)
+    utilisateur_id = Column(String(50), nullable=True)     # Utilisateur source
+    threat_type = Column(String(50), nullable=False)        # prompt_injection | sensitive_data | high_risk
+    threat_detail = Column(Text, nullable=True)             # Description technique
+    message_original = Column(Text, nullable=True)          # Message ayant déclenché l'alerte
+    resolved = Column(Boolean, default=False)               # Alerte traitée par un technicien
+    horodatage = Column(DateTime, server_default=func.now())
+
+    def __repr__(self):
+        return f"<SecurityAlert #{self.id} [{self.threat_type}] at {self.horodatage}>"
