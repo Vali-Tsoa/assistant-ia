@@ -53,8 +53,9 @@
 - Le ticket apparaît instantanément dans le tableau de bord kanban (port 3000)
 - Le badge de priorité, la catégorie et l'équipe affectée (`infrastructure_reseau`) sont affichés
 
-> 📹 **[Insérer la vidéo 1 ici]**
-> *Fichier suggéré : `demo_01_creation_ticket.mp4`*
+<video src="https://github.com/user-attachments/assets/CreateTicket.mp4" controls width="100%">
+  Votre navigateur ne supporte pas la lecture de cette vidéo.
+</video>
 
 ---
 
