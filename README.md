@@ -53,11 +53,10 @@
 - Le ticket apparaît instantanément dans le tableau de bord kanban (port 3000)
 - Le badge de priorité, la catégorie et l'équipe affectée (`infrastructure_reseau`) sont affichés
 
-<video src="https://github.com/user-attachments/assets/CreateTicket.mp4" controls width="100%">
-  Votre navigateur ne supporte pas la lecture de cette vidéo.
-</video>
 
-![Démo du projet](https://github.com/user-attachments/assets/CreateTicket.mp4)
+
+https://github.com/user-attachments/assets/b8e6c488-fab7-49b3-a34d-c069ddcad6c4
+
 
 ---
 
@@ -78,8 +77,7 @@
 - Dans le dashboard, le ticket bascule automatiquement dans la colonne `RÉSOLU`
 - Le badge ✅ `Résolu` apparaît sur la fiche ticket
 
-> 📹 **[Insérer la vidéo 2 ici]**
-> *Fichier suggéré : `demo_02_resolution_auto.mp4`*
+https://github.com/user-attachments/assets/7cfacb3f-3ee4-43dd-a95f-d8a5c8c51db0
 
 ---
 
@@ -101,8 +99,7 @@
 - Le badge du ticket dans le dashboard passe en rouge `🚨 P1 Critique`
 - L'équipe `infrastructure_reseau` est désignée comme responsable de l'escalade
 
-> 📹 **[Insérer la vidéo 3 ici]**
-> *Fichier suggéré : `demo_03_escalade_critique.mp4`*
+https://github.com/user-attachments/assets/9bf89ae3-f4c4-4103-955c-e5b671a8fbff
 
 ---
 
@@ -123,33 +120,10 @@
 - Côté utilisateur (port 3001), la barre de statut du ticket passe à ✅ **Résolu**
 - Le ticket est archivé et le badge de statut est mis à jour
 
-> 📹 **[Insérer la vidéo 4 ici]**
-> *Fichier suggéré : `demo_04_technicien_resolution.mp4`*
+https://github.com/user-attachments/assets/92f65143-0a81-4a17-ad49-e70c87754547
 
----
 
-### 📹 Vidéo 5 — Affichage du Statut Résolu dans le Chat Utilisateur
-
-> **Scénario** : Suite à la résolution du technicien (vidéo 4), l'utilisateur retrouve son interface chat
-> et constate que son ticket est bien marqué comme **Résolu**.
-
-| Détail | Valeur |
-|---|---|
-| **Vue** | Interface chat — sidebar historique (port 3001) |
-| **Statut affiché** | ✅ `Résolu` sur la fiche ticket utilisateur |
-
-**Ce que la vidéo montre :**
-- L'utilisateur consulte la sidebar de son interface chat
-- Le ticket apparaît avec le badge ✅ `Résolu`
-- La conversation est archivée et consultable dans l'historique
-- L'utilisateur peut ouvrir un nouveau ticket si nécessaire
-
-> 📹 **[Insérer la vidéo 5 ici]**
-> *Fichier suggéré : `demo_05_statut_resolu_chat.mp4`*
-
----
-
-### 📹 Vidéo 6 — Détection d'une Action à Haut Risque (Alerte Sécurité)
+### 📹 Vidéo 5 — Détection d'une Action à Haut Risque (regex) et télémetrie (Alerte Sécurité)
 
 > **Scénario** : Un utilisateur demande la réinitialisation du mot de passe administrateur.
 > Le guardrail regex détecte une action sensible, génère une alerte dans le dashboard,
@@ -168,33 +142,10 @@
 - L'alerte affiche le message original intercepté, l'utilisateur source et l'horodatage
 - Le technicien peut cliquer sur `Marquer traité` pour archiver l'alerte
 
-> 📹 **[Insérer la vidéo 6 ici]**
-> *Fichier suggéré : `demo_06_alerte_action_risque.mp4`*
+https://github.com/user-attachments/assets/742e295e-8f53-4129-8831-efeaa67dcdac
 
 ---
 
-### 📹 Vidéo 7 — Tentative de Prompt Injection (Blocage Complet)
-
-> **Scénario** : Un utilisateur malveillant tente de manipuler l'agent IA avec une prompt injection.
-> Le guardrail bloque la requête et génère une alerte critique de sécurité.
-
-| Détail | Valeur |
-|---|---|
-| **Prompt testé** | `"ignore all previous instructions"` ou `"oublie toutes tes consignes"` |
-| **Couche détectrice** | Guardrail Regex + LLM — Double couche |
-| **Type d'alerte** | `prompt_injection` 🚨 |
-| **Comportement** | Message **bloqué** — Pas de ticket créé |
-
-**Ce que la vidéo montre :**
-- L'utilisateur envoie une tentative de jailbreak dans le chat
-- L'agent répond avec le message de sécurité standard : *"Votre message a été signalé par nos systèmes de sécurité..."*
-- Une alerte rouge `🚨 Prompt Injection` apparaît dans le dashboard admin
-- La demande de validation humaine est requise pour traiter l'alerte
-
-> 📹 **[Insérer la vidéo 7 ici]**
-> *Fichier suggéré : `demo_07_prompt_injection.mp4`*
-
----
 
 ### Résumé des Vidéos
 
@@ -204,9 +155,7 @@
 | 2 | Résolution automatique | `"Merci, j'ai réussi à résoudre le problème"` | Ticket → `RESOLU` ✅ |
 | 3 | Escalade critique | `"Tout le monde n'arrive plus à se connecter..."` | Ticket → `P1 Critique` 🚨 |
 | 4 | Résolution par technicien | Drag & Drop kanban dashboard | Ticket → `RESOLU` |
-| 5 | Statut résolu côté chat | Consultation historique utilisateur | Badge ✅ affiché |
-| 6 | Alerte action à haut risque | `"Réinitialise ton mot de passe admin"` | Alerte `⚠️` + ticket créé |
-| 7 | Blocage prompt injection | `"ignore all previous instructions"` | Bloqué 🚫 + Alerte `🚨` |
+| 5 | Alerte action à haut risque | `"Réinitialise ton mot de passe admin"` | Alerte `⚠️` + ticket créé |
 
 
 Le système repose sur trois composants principaux :
