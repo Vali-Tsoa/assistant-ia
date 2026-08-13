@@ -48,10 +48,8 @@ const iconMap = {
 };
 
 const teams = [
-  { id: "personal", name: "Personal", icon: UsersIcon },
-  { id: "work", name: "Work Team", icon: BriefcaseIcon },
-  { id: "education", name: "Education", icon: GraduationCapIcon },
-];
+  { id: "personal", name: "Utilisateur", icon: UsersIcon }
+]
 
 export function ChatSidebar() {
   const {
@@ -76,8 +74,6 @@ export function ChatSidebar() {
               variant="ghost"
               className="w-full justify-start gap-2.5 px-2 h-10"
             >
-              <Logo className="size-6" />
-              <span className="font-semibold text-sm">Square AI</span>
               <div className="ml-auto flex items-center gap-1.5">
                 <Image
                   src="/ln.png"
@@ -102,7 +98,7 @@ export function ChatSidebar() {
                 >
                   <TeamIcon className="size-4" />
                   <span className="flex-1">{team.name}</span>
-                  {isSelected && <CheckIcon className="size-4" />}
+                  
                 </DropdownMenuItem>
               );
             })}
@@ -115,7 +111,7 @@ export function ChatSidebar() {
                 width={16}
                 height={16}
               />
-              <span>lndev.me</span>
+              <span>utilisateur@gmail.com</span>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -125,38 +121,14 @@ export function ChatSidebar() {
         <div className="relative flex items-center">
           <SearchIcon className="absolute left-3 size-4 text-muted-foreground" />
           <Input
-            placeholder="Search anything"
-            className="pl-9 pr-10 h-[34px] bg-muted/50"
+            placeholder="Rechercher..."
+            className="pl-9 pr-10 h-[34px] bg-muted/50 italic"
           />
           <div className="absolute right-2 flex items-center justify-center size-5 rounded bg-muted text-xs text-muted-foreground">
             /
           </div>
         </div>
       </div>
-
-      <div className="p-3 space-y-1">
-        <Button variant="ghost" className="w-full justify-start gap-2 px-2">
-          <HomeIcon className="size-4" />
-          <span className="text-sm">Home</span>
-        </Button>
-        <Button variant="ghost" className="w-full justify-start gap-2 px-2">
-          <SparklesIcon className="size-4" />
-          <span className="text-sm">Ask AI</span>
-        </Button>
-        <Button variant="ghost" className="w-full justify-start gap-2 px-2">
-          <FileStackIcon className="size-4" />
-          <span className="text-sm">Prompt Library</span>
-        </Button>
-        <Button variant="ghost" className="w-full justify-start gap-2 px-2">
-          <Layers3Icon className="size-4" />
-          <span className="text-sm">Extension</span>
-        </Button>
-        <Button variant="ghost" className="w-full justify-start gap-2 px-2">
-          <FolderClosedIcon className="size-4" />
-          <span className="text-sm">Folders</span>
-        </Button>
-      </div>
-
       <Separator />
 
       <div className="flex-1 overflow-y-auto no-scrollbar">
@@ -164,7 +136,7 @@ export function ChatSidebar() {
           <div className="space-y-1">
             <div className="px-2 py-1.5">
               <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                Recent
+                Récentes
               </p>
             </div>
             {recentChats.map((chat) => {
@@ -239,7 +211,7 @@ export function ChatSidebar() {
           <div className="space-y-1">
             <div className="px-2 py-1.5">
               <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                Archived
+                Archives
               </p>
             </div>
             {archivedChats.map((chat) => {
@@ -310,37 +282,6 @@ export function ChatSidebar() {
               );
             })}
           </div>
-        </div>
-      </div>
-
-      <div className="p-5 border-t border-sidebar-border">
-        <div className="rounded-lg bg-linear-to-br from-purple-500/10 via-blue-500/10 to-pink-500/10 p-3.5 space-y-3">
-          <div className="space-y-1">
-            <div className="flex items-center gap-2">
-              <WandSparklesIcon className="size-4" />
-              <span className="text-sm font-semibold">Square UI</span>
-            </div>
-            <p className="text-xs text-muted-foreground leading-tight">
-              Collection of beautifully crafted open-source layouts UI built
-              with shadcn/ui.
-            </p>
-          </div>
-          <Button
-            size="sm"
-            className="relative w-fit h-[30px] px-3 overflow-hidden bg-white text-black hover:bg-white/90 shadow-[0px_1px_2px_0px_rgba(8,8,8,0.2),0px_4px_4px_0px_rgba(8,8,8,0.08),inset_0px_1px_1px_0px_rgba(255,255,255,0.2),inset_0px_6px_12px_0px_rgba(255,255,255,0.12)]"
-            asChild
-          >
-            <Link
-              href="https://square.lndevui.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(205,175,250,1),transparent_50%),radial-gradient(ellipse_at_bottom_right,rgba(129,169,248,1),transparent_50%),radial-gradient(ellipse_at_top_left,rgba(247,203,191,1),transparent_50%),radial-gradient(ellipse_at_bottom_left,rgba(164,252,245,1),transparent_50%)]" />
-              <span className="relative z-10 font-medium text-xs">
-                square.lndevui.com
-              </span>
-            </Link>
-          </Button>
         </div>
       </div>
     </div>

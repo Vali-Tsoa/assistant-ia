@@ -39,18 +39,24 @@ export function ChatWelcomeScreen({
     <div className="flex h-full flex-col items-center justify-center px-4 md:px-8">
       <div className="w-full max-w-[640px] space-y-9 -mt-12">
         <div className="flex justify-center">
-          <div className="flex items-center justify-center size-8 rounded-full">
-            <Logo className="size-20" />
+          <div className="flex items-center justify-center rounded-full">
+           <img src="download 1.png" alt="" className="w-30" />
           </div>
         </div>
 
         <div className="space-y-4 text-center">
-          <h1 className="text-2xl font-semibold tracking-tight">
-            Hey! I&apos;m Square.ai
+          <div className="flex items-center justify-center gap-3">
+          <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
+            L’assistant IA de NeoCoders
           </h1>
-          <p className="text-2xl text-foreground">
-            Tell me everything you need
-          </p>
+
+          <Logo className="h-12 w-12" />
+        </div>
+
+        <p className="mt-3 text-center text-base text-gray-500 dark:text-gray-400">
+          Comment pouvons-nous vous aider aujourd’hui ?
+        </p>
+         
         </div>
 
         <ChatInputBox
@@ -61,31 +67,6 @@ export function ChatWelcomeScreen({
           onModelChange={onModelChange}
           showTools={true}
         />
-
-        <div className="flex flex-wrap items-center justify-center gap-2">
-          {chatModes.map((mode) => (
-            <Button
-              key={mode.id}
-              variant={selectedMode === mode.id ? "secondary" : "ghost"}
-              className={cn("gap-2", selectedMode === mode.id && "bg-accent")}
-              onClick={() => onModeChange(mode.id)}
-            >
-              <mode.icon className="size-4" />
-              <span>{mode.label}</span>
-              {mode.pro && (
-                <span className="rounded bg-primary/10 px-1.5 py-0.5 text-xs font-medium">
-                  Pro
-                </span>
-              )}
-            </Button>
-          ))}
-        </div>
-      </div>
-
-      <div className="absolute bottom-6 text-center">
-        <p className="text-sm text-muted-foreground">
-          Square AI can make mistakes. Check important info.
-        </p>
       </div>
     </div>
   );

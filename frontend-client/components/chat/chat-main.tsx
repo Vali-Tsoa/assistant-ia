@@ -33,7 +33,7 @@ export function ChatMain() {
       {
         id: "2",
         content:
-          "Hello! I'm Square AI, your intelligent assistant. I'm here to help you with anything you need. How can I assist you today?",
+          "Bonjour, je suis l'assistant IA de NeoCoders. Comment puis-je vous aider aujourd'hui ?",
         sender: "ai",
         timestamp: new Date(),
       },
