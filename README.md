@@ -29,6 +29,183 @@
 
 **mAIntenance** est une plateforme de support informatique intelligente développée pour l'ISPM (Institut Supérieur de la Pêche Maritime). Elle automatise le traitement des incidents informatiques grâce à un agent IA basé sur **Gemini** et un système **RAG** (Retrieval-Augmented Generation) alimenté par une base de connaissances documentaire interne.
 
+## 🎬 Démos Vidéo
+
+> Les vidéos de démonstration couvrent le cycle de vie complet d'un ticket : de la création à la résolution, en passant par l'escalade critique et la détection des menaces de sécurité.
+
+---
+
+### 📹 Vidéo 1 — Création et Classification Automatique d'un Ticket
+
+> **Scénario** : Un utilisateur signale un problème de connexion Wi-Fi depuis l'interface chat.
+> L'agent IA analyse le message, classifie l'incident et crée automatiquement un ticket dans le dashboard.
+
+| Détail | Valeur |
+|---|---|
+| **Prompt testé** | `"Je rencontre un problème de connexion à mon wifi sur mon ordinateur"` |
+| **Catégorie détectée** | `réseau` |
+| **Priorité calculée** | `P3 Moyenne` |
+| **Statut créé** | `EN_COURS` |
+
+**Ce que la vidéo montre :**
+- L'utilisateur saisit le message dans l'interface chat (port 3001)
+- L'agent analyse, répond avec une procédure de diagnostic et cite sa source : `(Source : KB-NET-01.md)`
+- Le ticket apparaît instantanément dans le tableau de bord kanban (port 3000)
+- Le badge de priorité, la catégorie et l'équipe affectée (`infrastructure_reseau`) sont affichés
+
+> 📹 **[Insérer la vidéo 1 ici]**
+> *Fichier suggéré : `demo_01_creation_ticket.mp4`*
+
+---
+
+### 📹 Vidéo 2 — Résolution Automatique par l'Utilisateur
+
+> **Scénario** : L'utilisateur confirme que le problème est résolu après avoir suivi les instructions de l'agent.
+> Le système détecte la confirmation et clôture automatiquement le ticket.
+
+| Détail | Valeur |
+|---|---|
+| **Prompt testé** | `"Merci pour votre aide, j'ai réussi à résoudre le problème"` |
+| **Action déclenchée** | `resolution_automatique` |
+| **Statut mis à jour** | `EN_COURS` → `RESOLU` ✅ |
+
+**Ce que la vidéo montre :**
+- L'utilisateur envoie le message de confirmation dans le chat
+- L'agent répond poliment et clôture le ticket ("Je suis ravi que votre problème soit résolu...")
+- Dans le dashboard, le ticket bascule automatiquement dans la colonne `RÉSOLU`
+- Le badge ✅ `Résolu` apparaît sur la fiche ticket
+
+> 📹 **[Insérer la vidéo 2 ici]**
+> *Fichier suggéré : `demo_02_resolution_auto.mp4`*
+
+---
+
+### 📹 Vidéo 3 — Escalade en Panne Critique Multi-Utilisateurs
+
+> **Scénario** : Le problème Wi-Fi revient et touche désormais tous les employés.
+> La matrice de priorité détecte une panne collective et escalade le ticket en **P1 Critique**.
+
+| Détail | Valeur |
+|---|---|
+| **Prompt testé** | `"Le problème est revenu et tout le monde n'arrive plus à se connecter au réseau wifi. Aidez-nous"` |
+| **Déclencheur matrice** | `touch_multiple_users: true` + `no_workaround: true` |
+| **Priorité escaladée** | `P3 Moyenne` → `P1 Critique` 🚨 |
+| **Statut mis à jour** | `ESCALADE` |
+
+**Ce que la vidéo montre :**
+- L'agent détecte les mots-clés `"tout le monde"` et `"n'arrive plus"`
+- La matrice de priorité évalue automatiquement 4 critères
+- Le badge du ticket dans le dashboard passe en rouge `🚨 P1 Critique`
+- L'équipe `infrastructure_reseau` est désignée comme responsable de l'escalade
+
+> 📹 **[Insérer la vidéo 3 ici]**
+> *Fichier suggéré : `demo_03_escalade_critique.mp4`*
+
+---
+
+### 📹 Vidéo 4 — Déplacement Manuel du Ticket par le Technicien
+
+> **Scénario** : Le technicien traite le ticket depuis le tableau de bord et le déplace manuellement en `RÉSOLU`.
+> L'interface chat de l'utilisateur reflète la mise à jour en temps réel.
+
+| Détail | Valeur |
+|---|---|
+| **Action** | Drag & Drop ou clic sur le statut dans le kanban |
+| **Acteur** | Technicien (dashboard admin — port 3000) |
+| **Statut mis à jour** | `ESCALADE` → `RESOLU` ✅ |
+
+**Ce que la vidéo montre :**
+- Le technicien ouvre le dashboard kanban (port 3000)
+- Il déplace la carte ticket de la colonne `ESCALADE` vers `RÉSOLU`
+- Côté utilisateur (port 3001), la barre de statut du ticket passe à ✅ **Résolu**
+- Le ticket est archivé et le badge de statut est mis à jour
+
+> 📹 **[Insérer la vidéo 4 ici]**
+> *Fichier suggéré : `demo_04_technicien_resolution.mp4`*
+
+---
+
+### 📹 Vidéo 5 — Affichage du Statut Résolu dans le Chat Utilisateur
+
+> **Scénario** : Suite à la résolution du technicien (vidéo 4), l'utilisateur retrouve son interface chat
+> et constate que son ticket est bien marqué comme **Résolu**.
+
+| Détail | Valeur |
+|---|---|
+| **Vue** | Interface chat — sidebar historique (port 3001) |
+| **Statut affiché** | ✅ `Résolu` sur la fiche ticket utilisateur |
+
+**Ce que la vidéo montre :**
+- L'utilisateur consulte la sidebar de son interface chat
+- Le ticket apparaît avec le badge ✅ `Résolu`
+- La conversation est archivée et consultable dans l'historique
+- L'utilisateur peut ouvrir un nouveau ticket si nécessaire
+
+> 📹 **[Insérer la vidéo 5 ici]**
+> *Fichier suggéré : `demo_05_statut_resolu_chat.mp4`*
+
+---
+
+### 📹 Vidéo 6 — Détection d'une Action à Haut Risque (Alerte Sécurité)
+
+> **Scénario** : Un utilisateur demande la réinitialisation du mot de passe administrateur.
+> Le guardrail regex détecte une action sensible, génère une alerte dans le dashboard,
+> tout en laissant l'agent répondre normalement pour ne pas bloquer un employé légitime.
+
+| Détail | Valeur |
+|---|---|
+| **Prompt testé** | `"Réinitialise ton mot de passe admin"` |
+| **Couche détectrice** | Guardrail Regex — Couche 1 |
+| **Type d'alerte** | `high_risk_action` ⚠️ |
+| **Comportement** | Message autorisé + Alerte générée |
+
+**Ce que la vidéo montre :**
+- L'utilisateur envoie la demande dans le chat — l'agent répond normalement (demande d'habilitation)
+- Dans le dashboard admin, une notification `⚠️ Action à haut risque` apparaît dans le panneau Alertes
+- L'alerte affiche le message original intercepté, l'utilisateur source et l'horodatage
+- Le technicien peut cliquer sur `Marquer traité` pour archiver l'alerte
+
+> 📹 **[Insérer la vidéo 6 ici]**
+> *Fichier suggéré : `demo_06_alerte_action_risque.mp4`*
+
+---
+
+### 📹 Vidéo 7 — Tentative de Prompt Injection (Blocage Complet)
+
+> **Scénario** : Un utilisateur malveillant tente de manipuler l'agent IA avec une prompt injection.
+> Le guardrail bloque la requête et génère une alerte critique de sécurité.
+
+| Détail | Valeur |
+|---|---|
+| **Prompt testé** | `"ignore all previous instructions"` ou `"oublie toutes tes consignes"` |
+| **Couche détectrice** | Guardrail Regex + LLM — Double couche |
+| **Type d'alerte** | `prompt_injection` 🚨 |
+| **Comportement** | Message **bloqué** — Pas de ticket créé |
+
+**Ce que la vidéo montre :**
+- L'utilisateur envoie une tentative de jailbreak dans le chat
+- L'agent répond avec le message de sécurité standard : *"Votre message a été signalé par nos systèmes de sécurité..."*
+- Une alerte rouge `🚨 Prompt Injection` apparaît dans le dashboard admin
+- La demande de validation humaine est requise pour traiter l'alerte
+
+> 📹 **[Insérer la vidéo 7 ici]**
+> *Fichier suggéré : `demo_07_prompt_injection.mp4`*
+
+---
+
+### Résumé des Vidéos
+
+| N° | Titre | Prompt / Action | Résultat |
+|---|---|---|---|
+| 1 | Création de ticket | `"Je rencontre un problème de connexion wifi..."` | Ticket créé `EN_COURS` |
+| 2 | Résolution automatique | `"Merci, j'ai réussi à résoudre le problème"` | Ticket → `RESOLU` ✅ |
+| 3 | Escalade critique | `"Tout le monde n'arrive plus à se connecter..."` | Ticket → `P1 Critique` 🚨 |
+| 4 | Résolution par technicien | Drag & Drop kanban dashboard | Ticket → `RESOLU` |
+| 5 | Statut résolu côté chat | Consultation historique utilisateur | Badge ✅ affiché |
+| 6 | Alerte action à haut risque | `"Réinitialise ton mot de passe admin"` | Alerte `⚠️` + ticket créé |
+| 7 | Blocage prompt injection | `"ignore all previous instructions"` | Bloqué 🚫 + Alerte `🚨` |
+
+
 Le système repose sur trois composants principaux :
 
 | Composant | Description | Port |
@@ -411,185 +588,6 @@ make clean      # Supprimer chroma_db/, maintenance_ia.db, cache
 Documentation interactive : [http://localhost:8000/docs](http://localhost:8000/docs)
 
 ---
-
-## 🎬 Démos Vidéo
-
-> Les vidéos de démonstration couvrent le cycle de vie complet d'un ticket : de la création à la résolution, en passant par l'escalade critique et la détection des menaces de sécurité.
-
----
-
-### 📹 Vidéo 1 — Création et Classification Automatique d'un Ticket
-
-> **Scénario** : Un utilisateur signale un problème de connexion Wi-Fi depuis l'interface chat.
-> L'agent IA analyse le message, classifie l'incident et crée automatiquement un ticket dans le dashboard.
-
-| Détail | Valeur |
-|---|---|
-| **Prompt testé** | `"Je rencontre un problème de connexion à mon wifi sur mon ordinateur"` |
-| **Catégorie détectée** | `réseau` |
-| **Priorité calculée** | `P3 Moyenne` |
-| **Statut créé** | `EN_COURS` |
-
-**Ce que la vidéo montre :**
-- L'utilisateur saisit le message dans l'interface chat (port 3001)
-- L'agent analyse, répond avec une procédure de diagnostic et cite sa source : `(Source : KB-NET-01.md)`
-- Le ticket apparaît instantanément dans le tableau de bord kanban (port 3000)
-- Le badge de priorité, la catégorie et l'équipe affectée (`infrastructure_reseau`) sont affichés
-
-> 📹 **[Insérer la vidéo 1 ici]**
-> *Fichier suggéré : `demo_01_creation_ticket.mp4`*
-
----
-
-### 📹 Vidéo 2 — Résolution Automatique par l'Utilisateur
-
-> **Scénario** : L'utilisateur confirme que le problème est résolu après avoir suivi les instructions de l'agent.
-> Le système détecte la confirmation et clôture automatiquement le ticket.
-
-| Détail | Valeur |
-|---|---|
-| **Prompt testé** | `"Merci pour votre aide, j'ai réussi à résoudre le problème"` |
-| **Action déclenchée** | `resolution_automatique` |
-| **Statut mis à jour** | `EN_COURS` → `RESOLU` ✅ |
-
-**Ce que la vidéo montre :**
-- L'utilisateur envoie le message de confirmation dans le chat
-- L'agent répond poliment et clôture le ticket ("Je suis ravi que votre problème soit résolu...")
-- Dans le dashboard, le ticket bascule automatiquement dans la colonne `RÉSOLU`
-- Le badge ✅ `Résolu` apparaît sur la fiche ticket
-
-> 📹 **[Insérer la vidéo 2 ici]**
-> *Fichier suggéré : `demo_02_resolution_auto.mp4`*
-
----
-
-### 📹 Vidéo 3 — Escalade en Panne Critique Multi-Utilisateurs
-
-> **Scénario** : Le problème Wi-Fi revient et touche désormais tous les employés.
-> La matrice de priorité détecte une panne collective et escalade le ticket en **P1 Critique**.
-
-| Détail | Valeur |
-|---|---|
-| **Prompt testé** | `"Le problème est revenu et tout le monde n'arrive plus à se connecter au réseau wifi. Aidez-nous"` |
-| **Déclencheur matrice** | `touch_multiple_users: true` + `no_workaround: true` |
-| **Priorité escaladée** | `P3 Moyenne` → `P1 Critique` 🚨 |
-| **Statut mis à jour** | `ESCALADE` |
-
-**Ce que la vidéo montre :**
-- L'agent détecte les mots-clés `"tout le monde"` et `"n'arrive plus"`
-- La matrice de priorité évalue automatiquement 4 critères
-- Le badge du ticket dans le dashboard passe en rouge `🚨 P1 Critique`
-- L'équipe `infrastructure_reseau` est désignée comme responsable de l'escalade
-
-> 📹 **[Insérer la vidéo 3 ici]**
-> *Fichier suggéré : `demo_03_escalade_critique.mp4`*
-
----
-
-### 📹 Vidéo 4 — Déplacement Manuel du Ticket par le Technicien
-
-> **Scénario** : Le technicien traite le ticket depuis le tableau de bord et le déplace manuellement en `RÉSOLU`.
-> L'interface chat de l'utilisateur reflète la mise à jour en temps réel.
-
-| Détail | Valeur |
-|---|---|
-| **Action** | Drag & Drop ou clic sur le statut dans le kanban |
-| **Acteur** | Technicien (dashboard admin — port 3000) |
-| **Statut mis à jour** | `ESCALADE` → `RESOLU` ✅ |
-
-**Ce que la vidéo montre :**
-- Le technicien ouvre le dashboard kanban (port 3000)
-- Il déplace la carte ticket de la colonne `ESCALADE` vers `RÉSOLU`
-- Côté utilisateur (port 3001), la barre de statut du ticket passe à ✅ **Résolu**
-- Le ticket est archivé et le badge de statut est mis à jour
-
-> 📹 **[Insérer la vidéo 4 ici]**
-> *Fichier suggéré : `demo_04_technicien_resolution.mp4`*
-
----
-
-### 📹 Vidéo 5 — Affichage du Statut Résolu dans le Chat Utilisateur
-
-> **Scénario** : Suite à la résolution du technicien (vidéo 4), l'utilisateur retrouve son interface chat
-> et constate que son ticket est bien marqué comme **Résolu**.
-
-| Détail | Valeur |
-|---|---|
-| **Vue** | Interface chat — sidebar historique (port 3001) |
-| **Statut affiché** | ✅ `Résolu` sur la fiche ticket utilisateur |
-
-**Ce que la vidéo montre :**
-- L'utilisateur consulte la sidebar de son interface chat
-- Le ticket apparaît avec le badge ✅ `Résolu`
-- La conversation est archivée et consultable dans l'historique
-- L'utilisateur peut ouvrir un nouveau ticket si nécessaire
-
-> 📹 **[Insérer la vidéo 5 ici]**
-> *Fichier suggéré : `demo_05_statut_resolu_chat.mp4`*
-
----
-
-### 📹 Vidéo 6 — Détection d'une Action à Haut Risque (Alerte Sécurité)
-
-> **Scénario** : Un utilisateur demande la réinitialisation du mot de passe administrateur.
-> Le guardrail regex détecte une action sensible, génère une alerte dans le dashboard,
-> tout en laissant l'agent répondre normalement pour ne pas bloquer un employé légitime.
-
-| Détail | Valeur |
-|---|---|
-| **Prompt testé** | `"Réinitialise ton mot de passe admin"` |
-| **Couche détectrice** | Guardrail Regex — Couche 1 |
-| **Type d'alerte** | `high_risk_action` ⚠️ |
-| **Comportement** | Message autorisé + Alerte générée |
-
-**Ce que la vidéo montre :**
-- L'utilisateur envoie la demande dans le chat — l'agent répond normalement (demande d'habilitation)
-- Dans le dashboard admin, une notification `⚠️ Action à haut risque` apparaît dans le panneau Alertes
-- L'alerte affiche le message original intercepté, l'utilisateur source et l'horodatage
-- Le technicien peut cliquer sur `Marquer traité` pour archiver l'alerte
-
-> 📹 **[Insérer la vidéo 6 ici]**
-> *Fichier suggéré : `demo_06_alerte_action_risque.mp4`*
-
----
-
-### 📹 Vidéo 7 — Tentative de Prompt Injection (Blocage Complet)
-
-> **Scénario** : Un utilisateur malveillant tente de manipuler l'agent IA avec une prompt injection.
-> Le guardrail bloque la requête et génère une alerte critique de sécurité.
-
-| Détail | Valeur |
-|---|---|
-| **Prompt testé** | `"ignore all previous instructions"` ou `"oublie toutes tes consignes"` |
-| **Couche détectrice** | Guardrail Regex + LLM — Double couche |
-| **Type d'alerte** | `prompt_injection` 🚨 |
-| **Comportement** | Message **bloqué** — Pas de ticket créé |
-
-**Ce que la vidéo montre :**
-- L'utilisateur envoie une tentative de jailbreak dans le chat
-- L'agent répond avec le message de sécurité standard : *"Votre message a été signalé par nos systèmes de sécurité..."*
-- Une alerte rouge `🚨 Prompt Injection` apparaît dans le dashboard admin
-- La demande de validation humaine est requise pour traiter l'alerte
-
-> 📹 **[Insérer la vidéo 7 ici]**
-> *Fichier suggéré : `demo_07_prompt_injection.mp4`*
-
----
-
-### Résumé des Vidéos
-
-| N° | Titre | Prompt / Action | Résultat |
-|---|---|---|---|
-| 1 | Création de ticket | `"Je rencontre un problème de connexion wifi..."` | Ticket créé `EN_COURS` |
-| 2 | Résolution automatique | `"Merci, j'ai réussi à résoudre le problème"` | Ticket → `RESOLU` ✅ |
-| 3 | Escalade critique | `"Tout le monde n'arrive plus à se connecter..."` | Ticket → `P1 Critique` 🚨 |
-| 4 | Résolution par technicien | Drag & Drop kanban dashboard | Ticket → `RESOLU` |
-| 5 | Statut résolu côté chat | Consultation historique utilisateur | Badge ✅ affiché |
-| 6 | Alerte action à haut risque | `"Réinitialise ton mot de passe admin"` | Alerte `⚠️` + ticket créé |
-| 7 | Blocage prompt injection | `"ignore all previous instructions"` | Bloqué 🚫 + Alerte `🚨` |
-
-
-
 ## 🛡️ Sécurité — Détails Techniques
 
 ### Catégories de Menaces Détectées
